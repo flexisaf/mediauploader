@@ -1,6 +1,6 @@
 window._mu = (function () {
-    function validateFiles (uploadedFiles) {
-        for (var x = 0; x <  uploadedFiles.length; x++) {
+    function validateFiles(uploadedFiles) {
+        for (var x = 0; x < uploadedFiles.length; x++) {
             console.log(uploadedFiles[x])
         }
     }
@@ -12,17 +12,25 @@ window._mu = (function () {
         `
     }
 
-    function previewImage(imagePreviewer, file) {
+    function convertImageStream(imagePreviewer, file) {
         var fileReader = new FileReader();
-        fileReader.onload = function() {
-            imagePreviewer.scr = fileReader.result;
+        fileReader.onload = function () {
+            imagePreviewer.src = fileReader.result;
         }
         fileReader.readAsDataURL(file);
+    }
+
+    function preview (src) {
+        var imageContainer = document.createElement('img')
+        imageContainer.setAttribute('id', 'imgPreview')
+        return imageContainer
     }
 
     function FSMediaUploader(els) {
         this.els = els;
     }
+
+
 
     FSMediaUploader.prototype = {
         allowedFiles: [
@@ -37,8 +45,8 @@ window._mu = (function () {
             var uploaderInput = this.els.querySelector('#fileUpload')
             uploaderInput.addEventListener('change', this.renderFilesInfo)
             uploaderInput.addEventListener('dragover', this.dropOver);
-            uploaderInput.addEventListener('drop', this.drop)
-            
+            uploaderInput.addEventListener('drop', this.renderFilesInfo)
+
         },
 
         processUpload: function (event) {
@@ -50,25 +58,36 @@ window._mu = (function () {
             // console.log("Uploading Form Input is ", formData);
         },
 
-        renderFilesInfo: function(event) {
+        renderFilesInfo: function (event) {
             // console.log('This is processing', this.)
             var uploadedInputFiles = document.getElementById('fileUpload');
             console.log('Uploaded files ', uploadedInputFiles)
             var files = uploadedInputFiles.files;
             var infoElm = document.getElementById('fileInfos');
-            for(var i = 0; i < files.length; i++) {
-                console.log('Files ', files[i])
+            var imageContainer = document.getElementById('imagesContainer');
+            for (var i = 0; i < files.length; i++) {
                 var infoDetails = document.createElement('div')
                 infoDetails.innerHTML = fileInfo(files[i])
-                infoElm.appendChild(infoDetails);            
+                infoElm.appendChild(infoDetails);
+                // show the image container preview
+                let imageToShow = preview()
+                imageContainer.appendChild(imageToShow)
+                convertImageStream(imageToShow, files[i])
             }
+            // console.
+            // show  the preview images 
+            // var loadedImages = document.querySelectorAll('#imgPreview');
+            // for (var li = 0; li < loadedImages.length; li++) {
+            //     ;
+            // }
+
         },
 
 
         html: function () {
             let htmlTemplate = `
             <div> 
-                <input type="file" id="fileUpload"/>
+                <input type="file" id="fileUpload" multiple/>
             </div>
             <div>
                 <input type="text" placeholder="Album Name" />
@@ -79,25 +98,21 @@ window._mu = (function () {
                 Files Info
             </div>
 
-            <div id="imagePreview">
-                
+            <div id="imagesContainer">
+
             </div>
         `
             return htmlTemplate;
         },
 
-        preview: function() {
-            var imagePreview =  `
-                <img />
-            `
-        },
 
-        dropOver: function(event) {
+
+        dropOver: function (event) {
             event.preventDefault()
             console.log('Drop over ')
         },
 
-        drop: function(event) {
+        drop: function (event) {
             event.preventDefault()
             console.log('Dropped file')
         },
