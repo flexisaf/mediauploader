@@ -12,6 +12,14 @@ window._mu = (function () {
         `
     }
 
+    function previewImage(imagePreviewer, file) {
+        var fileReader = new FileReader();
+        fileReader.onload = function() {
+            imagePreviewer.scr = fileReader.result;
+        }
+        fileReader.readAsDataURL(file);
+    }
+
     function FSMediaUploader(els) {
         this.els = els;
     }
@@ -26,8 +34,11 @@ window._mu = (function () {
             this.uploadUrl = uploadUrl;
             this.els.innerHTML = this.html()
             this.els.querySelector('#uploadButton').addEventListener('click', this.processUpload)
-            this.els.querySelector('#fileUpload').addEventListener('change', this.renderFilesInfo)
-
+            var uploaderInput = this.els.querySelector('#fileUpload')
+            uploaderInput.addEventListener('change', this.renderFilesInfo)
+            uploaderInput.addEventListener('dragover', this.dropOver);
+            uploaderInput.addEventListener('drop', this.drop)
+            
         },
 
         processUpload: function (event) {
@@ -46,6 +57,7 @@ window._mu = (function () {
             var files = uploadedInputFiles.files;
             var infoElm = document.getElementById('fileInfos');
             for(var i = 0; i < files.length; i++) {
+                console.log('Files ', files[i])
                 var infoDetails = document.createElement('div')
                 infoDetails.innerHTML = fileInfo(files[i])
                 infoElm.appendChild(infoDetails);            
@@ -66,12 +78,28 @@ window._mu = (function () {
             <div id="fileInfos">
                 Files Info
             </div>
+
+            <div id="imagePreview">
+                
+            </div>
         `
             return htmlTemplate;
         },
 
-        dropFileZone: function(event) {
+        preview: function() {
+            var imagePreview =  `
+                <img />
+            `
+        },
 
+        dropOver: function(event) {
+            event.preventDefault()
+            console.log('Drop over ')
+        },
+
+        drop: function(event) {
+            event.preventDefault()
+            console.log('Dropped file')
         },
 
         map: function (callback) {
