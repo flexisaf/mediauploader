@@ -88,15 +88,15 @@ window._mu = (function () {
 
         processUpload: function (event) {
             event.preventDefault();
-            console.log('Self ', this.querySelector('#fileUpload'))
-            const uploadedInputFiles = document.getElementById('fileUpload');
+            const uploadedInputFiles = this.els.querySelector('#fileUpload');
             const files = uploadedInputFiles.files;
             var formData = new FormData();            
             for (var f = 0; f < files.length; f++) {
-                formData.append(`photo_${f}`, files[f]);
+                formData.append(`file_${f}`, files[f]);
             }
             // validateFiles(uploadedFiles.files);
             sendUpload(this.uploadUrl, formData).then(function(response) {
+                // todo add a callback to the users of this module
                 console.log('Response from server ', JSON.stringify(response))
             }).catch(function(error) {
                 console.log('Error loading images')
