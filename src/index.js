@@ -1,3 +1,5 @@
+import {htmlContainer} from './template'
+
 function validateFiles(uploadedFiles) {
     for (var x = 0; x < uploadedFiles.length; x++) {
         console.log(uploadedFiles[x]);
@@ -20,9 +22,13 @@ function convertImageStream(imagePreviewer, file) {
 }
 
 function preview(src) {
-    var imageContainer = document.createElement('img')
-    imageContainer.setAttribute('id', 'imgPreview')
-    return imageContainer
+    var imageContainer = document.createElement('div')
+    imageContainer.classList.add('column')
+    imageContainer.classList.add('is-3')
+    var image = document.createElement('img')
+    image.setAttribute('id', 'imgPreview')
+    imageContainer.appendChild(image)
+    return  { imageContainer, image }
 }
 
 function sendUpload(url, jsonData) {
@@ -88,7 +94,7 @@ FSMediaUploader.prototype = {
             return self.dropOver(e);
         });
         uploaderInput.addEventListener('drop', function (e) {
-            return this.renderFilesInfo(e)
+            return self.renderFilesInfo(e)
         });
     },
 
@@ -111,7 +117,7 @@ FSMediaUploader.prototype = {
     },
 
     renderFilesInfo: function (event) {
-        // console.log('This is processing', this.)
+        console.log('This is processing')
         var uploadedInputFiles = document.getElementById('fileUpload');
         var files = uploadedInputFiles.files;
         var infoElm = document.getElementById('fileInfos');
@@ -122,31 +128,14 @@ FSMediaUploader.prototype = {
             infoElm.appendChild(infoDetails);
             // show the image container preview
             let imageToShow = preview()
-            imageContainer.appendChild(imageToShow)
-            convertImageStream(imageToShow, files[i])
+            imageContainer.appendChild(imageToShow.imageContainer)
+            convertImageStream(imageToShow.image, files[i])
         }
     },
 
 
     html: function () {
-        let htmlTemplate = `
-            <div> 
-                <input type="file" id="fileUpload" multiple/>
-            </div>
-            <div>
-                <input type="text" placeholder="Album Name" />
-            </div>
-            <button id="uploadButton"> Upload </button>
-
-            <div id="fileInfos">
-                Files Info
-            </div>
-
-            <div id="imagesContainer">
-
-            </div>
-        `
-        return htmlTemplate;
+        return htmlContainer;
     },
 
 
