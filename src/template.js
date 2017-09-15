@@ -10,10 +10,9 @@ export const htmlContainer = `
             <div class="content">
                 <div class="columns has-text-centered">
                     <div class="column is-3">
-                     <input type="file" id="fileUpload" multiple>
                         <div class="file has-name is-boxed">
-                            <label class="file-label" id="fileUploadDZ" >
-                                <input class="file-input" type="file" id="fileUpload2" multiple>
+                            <label class="file-label">
+                                <input class="file-input" type="file" id="fileUpload" multiple>
                                 <span class="file-cta" id="">
                                               <span class="file-icon">
                                                 <i class="fa fa-upload"></i>
@@ -23,8 +22,8 @@ export const htmlContainer = `
                                               </span>
                                             </span>
                                 <span class="file-name">
-                                              Screen Shot 2017-07-29 at 15.54.25.png
-                                            </span>
+                                    Screen Shot 2017-07-29 at 15.54.25.png
+                                </span>
                             </input>
                         </div>
                     </div>
