@@ -1,4 +1,9 @@
 var mediaUploader = new window.Mu('modal');
-var uploadUrl = 'http://192.168.100.46:8080/distinction-2.0-alpha2/api/orgs/1/candidates/bulk'
+const assignmentId = encodeURIComponent('001')
+const armId = 'a'
+var std = encodeURIComponent('CSS/016/0010')
+var ses = encodeURIComponent('2016/2017')
+var kls = encodeURIComponent('GRD 1');
+var uploadUrl = `http://192.168.100.12:8080/api/v1/assignment-submissions/upload?assignment-id=001&student-id=${std}&arm-id=a&session-id=${ses}&term-id=THIRD&klass-id=${kls}&subject-code=MATHS`
 mediaUploader.show(uploadUrl);
 mediaUploader.registerEvents();
