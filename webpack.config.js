@@ -15,6 +15,14 @@ var config = {
       libraryTarget: 'umd',
       umdNamedDefine: true
     },
+    plugins : [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+              warnings: false
+            },
+            sourceMap: true
+          }),
+    ],
     module: {
       loaders: [
         {
@@ -30,9 +38,7 @@ var config = {
       ]
     },
     resolve: {
-     modules: [__dirname, 'node_modules'],
-    //   root: path.resolve('./src'),
-    //   extensions: ['', '.js']
+     modules: [__dirname, 'node_modules'],    
     }
   };
   

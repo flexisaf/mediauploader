@@ -104,7 +104,7 @@ FSMediaUploader.prototype = {
         const files = uploadedInputFiles.files;
         var formData = new FormData();
         for (var f = 0; f < files.length; f++) {
-            formData.append(`file_${f}`, files[f]);
+            formData.append(`file`, files[f], files[f].name);
         }
         // validateFiles(uploadedFiles.files);
         sendUpload(this.uploadUrl, formData).then(function (response) {
