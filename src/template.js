@@ -5,8 +5,8 @@
 
 export const htmlContainer = `
     <div class="content">
-    <div class="columns is-centered">
-        <div class="column is-6-desktop box">
+     <div class="columns is-centered">
+        <div class="column is-12-desktop">
             <div class="content">
                 <div class="columns has-text-centered">
                     <div class="column is-3">

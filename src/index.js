@@ -102,18 +102,17 @@ FSMediaUploader.prototype = {
         event.preventDefault();
         const uploadedInputFiles = this.els.querySelector('#fileUpload');
         const files = uploadedInputFiles.files;
-        var formData = new FormData();
+        
         for (var f = 0; f < files.length; f++) {
+            var formData = new FormData();
             formData.append(`file`, files[f], files[f].name);
+            sendUpload(this.uploadUrl, formData).then(function (response) {
+                // todo add a callback to the users of this module
+                console.log('Response from server ', JSON.stringify(response))
+            }).catch(function (error) {
+                console.log('Error loading images')
+            })
         }
-        // validateFiles(uploadedFiles.files);
-        sendUpload(this.uploadUrl, formData).then(function (response) {
-            // todo add a callback to the users of this module
-            console.log('Response from server ', JSON.stringify(response))
-        }).catch(function (error) {
-            console.log('Error loading images')
-        })
-
     },
 
     renderFilesInfo: function (event) {
@@ -133,6 +132,9 @@ FSMediaUploader.prototype = {
         }
     },
 
+    setUrl: function(url) {
+        this.uploadUrl = url;
+    },
 
     html: function () {
         return htmlContainer;
@@ -142,12 +144,10 @@ FSMediaUploader.prototype = {
 
     dropOver: function (event) {
         event.preventDefault()
-        console.log('Drop over ')
     },
 
     drop: function (event) {
         event.preventDefault()
-        console.log('Dropped file')
     },
 
     map: function (callback) {
