@@ -9,7 +9,7 @@ export const htmlContainer = `
         <div class="column is-12-desktop">
             <div class="content">
                 <div class="columns has-text-centered">
-                    <div class="column is-3">
+                    <div class="column is-4">
                         <div class="file has-name is-boxed">
                             <label class="file-label">
                                 <input class="file-input" type="file" id="fileUpload" multiple>
@@ -22,14 +22,17 @@ export const htmlContainer = `
                                               </span>
                                             </span>
                                 <span class="file-name">
-                                    Screen Shot 2017-07-29 at 15.54.25.png
+                                    
                                 </span>
                             </input>
                         </div>
                     </div>
-                    <div class="column is-9" id="fileInfos">
+                    <div class="column is-3" id="fileInfos">
                         Files Info
                     </div>
+
+                    <div class="column is-3" id="uploadError">
+                    <div>
                 </div>
                 
                 <div class="columns is-multiline is-mobile" id="imagesContainer">
@@ -37,7 +40,7 @@ export const htmlContainer = `
                 
                 <div class="columns is-multiline is-mobile">
                     <div class="column is-12">
-                        <p class="field">                        
+                        <p class="field" style="display:none;">                        
                             <label class="checkbox">
                                 <input type="checkbox" checked="checked">
                                 Save as an Album?
@@ -45,7 +48,7 @@ export const htmlContainer = `
                             <input class="input" type="text" placeholder="Album Name"/>
                         </p>
                         <p class="field has-text-centered">
-                            <button class="button">
+                            <button class="button" id="cancleButton">
                                     <span class="icon">
                                       <i class="fa fa-times"></i>
                                     </span>

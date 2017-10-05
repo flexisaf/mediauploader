@@ -1,5 +1,17 @@
 import {htmlContainer} from './template'
 
+
+function FSMediaUploader(selector) {
+    if (typeof selector === 'string') {
+        this.els = document.getElementById(selector);
+    } else if (selector.length) {
+        this.els = selector;
+    } else {
+        this.els = [selector];
+    }
+}
+
+
 function validateFiles(uploadedFiles) {
     for (var x = 0; x < uploadedFiles.length; x++) {
         console.log(uploadedFiles[x]);
@@ -7,10 +19,15 @@ function validateFiles(uploadedFiles) {
 }
 
 function fileInfo(file) {
+
     return `
             <span> ${file.name}</span>
             <span>Size:${file.size} MB</span>
         `
+}
+
+function uploadError(file, errorMsg) {
+    return ` <span> ${file.name} </span> <span> ${errorMsg} </span>`
 }
 
 function convertImageStream(imagePreviewer, file) {
@@ -42,7 +59,6 @@ function sendUpload(url, jsonData) {
                 fail(new Error('Network Error ....'))
             }
         });
-
         req.addEventListener('error', function () {
             fail(req);
         });
@@ -51,15 +67,6 @@ function sendUpload(url, jsonData) {
     });
 }
 
-function FSMediaUploader(selector) {
-    if (typeof selector === 'string') {
-        this.els = document.getElementById(selector);
-    } else if (selector.length) {
-        this.els = selector;
-    } else {
-        this.els = [selector];
-    }
-}
 
 
 
@@ -68,12 +75,16 @@ FSMediaUploader.prototype = {
         '.jpg', '.png'
     ],
 
-    show: function (uploadUrl) {
+    initialize: function (uploadUrl) {
         // create our uploader widget
         this.uploadUrl = uploadUrl;
         this.els.innerHTML = this.html();
+        this.registerEvents();
     },
 
+    closeHandler: function(closeCallback) {
+        this.closeCallback = closeCallback
+    },
 
     /**
      * Hack to allow our application 
@@ -85,7 +96,8 @@ FSMediaUploader.prototype = {
         var self = this;
         this.els.querySelector('#uploadButton').addEventListener('click', function (e) {
             return self.processUpload(e)
-        })
+        });
+        this.els.querySelector('#cancleButton').addEventListener('click',this.closeCallback);
         var uploaderInput = this.els.querySelector('#fileUpload')
         uploaderInput.addEventListener('change', function (e) {
             return self.renderFilesInfo(e);
@@ -96,27 +108,28 @@ FSMediaUploader.prototype = {
         uploaderInput.addEventListener('drop', function (e) {
             return self.renderFilesInfo(e)
         });
+
     },
 
     processUpload: function (event) {
         event.preventDefault();
         const uploadedInputFiles = this.els.querySelector('#fileUpload');
         const files = uploadedInputFiles.files;
-        
+        var errorLog = document.getElementById('uploadError');
         for (var f = 0; f < files.length; f++) {
             var formData = new FormData();
-            formData.append(`file`, files[f], files[f].name);
+            formData.append('file', files[f], files[f].name);
             sendUpload(this.uploadUrl, formData).then(function (response) {
                 // todo add a callback to the users of this module
-                console.log('Response from server ', JSON.stringify(response))
             }).catch(function (error) {
-                console.log('Error loading images')
-            })
+                const err = document.createElement('div');
+                err.innerHTML = uploadError(files[f], error.statusMsg)
+                errorLog.appendChild(err);
+            });
         }
     },
 
     renderFilesInfo: function (event) {
-        console.log('This is processing')
         var uploadedInputFiles = document.getElementById('fileUpload');
         var files = uploadedInputFiles.files;
         var infoElm = document.getElementById('fileInfos');
@@ -126,7 +139,7 @@ FSMediaUploader.prototype = {
             infoDetails.innerHTML = fileInfo(files[i])
             infoElm.appendChild(infoDetails);
             // show the image container preview
-            let imageToShow = preview()
+            var imageToShow = preview()
             imageContainer.appendChild(imageToShow.imageContainer)
             convertImageStream(imageToShow.image, files[i])
         }
@@ -139,8 +152,6 @@ FSMediaUploader.prototype = {
     html: function () {
         return htmlContainer;
     },
-
-
 
     dropOver: function (event) {
         event.preventDefault()
@@ -158,7 +169,5 @@ FSMediaUploader.prototype = {
         }
         return results;
     },
-
-
 }
 export default FSMediaUploader
