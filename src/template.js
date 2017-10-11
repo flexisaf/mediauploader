@@ -4,67 +4,60 @@
 
 
 export const htmlContainer = `
-    <div class="content">
-     <div class="columns is-centered">
-        <div class="column is-12-desktop">
-            <div class="content">
-                <div class="columns has-text-centered">
-                    <div class="column is-4">
-                        <div class="file has-name is-boxed">
-                            <label class="file-label">
-                                <input class="file-input" type="file" id="fileUpload" multiple>
-                                <span class="file-cta" id="">
-                                              <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                              </span>
-                                              <span class="file-label">
-                                                Choose a file…
-                                              </span>
-                                            </span>
-                                <span class="file-name">
-                                    
-                                </span>
-                            </input>
-                        </div>
+    <div class="media-uploader card">
+    
+    <div class="progress-wrap progress" data-progress-percent="25">
+      <div class="progress-bar progress"></div>
+    </div>
+    
+    <div id="fileInfos" class="card show-dialog">    
+	    <a id="close" onclick="closeDialog">&#x2715;</a>
+        <h3>Files Info</h3>
+    </div>
+                
+     <div class="">
+        <div class="">
+            <header class="">
+                <section class="header-right">
+                    <button class="button" id="cancleButton">
+                            <span class="icon">
+                              <i class="fa fa-times"></i>
+                            </span>
+                        <span>Cancel</span>
+                    </button>
+                    <button class="button button-primary" id="uploadButton">
+                            <span class="icon is-small">
+                              <i class="fa fa-check"></i>
+                            </span>
+                        <span>Upload</span>
+                    </button>
+                </section>
+                <section class="header-left">
+                    <div class="">
+                            <input class="file-input button" type="file" id="fileUpload" multiple />
+                            <button id="showFileInfos" class="button-no-outline">Show details</button>
                     </div>
-                    <div class="column is-3" id="fileInfos">
-                        Files Info
-                    </div>
-
-                    <div class="column is-3" id="uploadError">
+                </section>                
+            </header>
+            <section class="">
+                <div class="" id="uploadError">
                     <div>
-                </div>
-                
-                <div class="columns is-multiline is-mobile" id="imagesContainer">
-                </div>
-                
-                <div class="columns is-multiline is-mobile">
-                    <div class="column is-12">
-                        <p class="field" style="display:none;">                        
-                            <label class="checkbox">
-                                <input type="checkbox" checked="checked">
-                                Save as an Album?
-                            </label>
-                            <input class="input" type="text" placeholder="Album Name"/>
-                        </p>
-                        <p class="field has-text-centered">
-                            <button class="button" id="cancleButton">
-                                    <span class="icon">
-                                      <i class="fa fa-times"></i>
-                                    </span>
-                                <span>Cancel</span>
-                            </button>
-                            <button class="button is-success" id="uploadButton">
-                                    <span class="icon is-small">
-                                      <i class="fa fa-check"></i>
-                                    </span>
-                                <span>Upload</span>
-                            </button>
-                        </p>
                     </div>
+            
+                    <div class="" id="imagesContainer">
+                    </div>
+            </section>
+            <div class="">
+                <div class="">
+                    <p class="field" style="display:none;">                        
+                        <label class="checkbox">
+                            <input type="checkbox" checked="checked">
+                            Save as an Album?
+                        </label>
+                        <input class="input" type="text" placeholder="Album Name"/>
+                    </p>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 `;
