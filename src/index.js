@@ -12,6 +12,9 @@ function FSMediaUploader(selector) {
     }
 }
 
+function calculatePercentage(count, total) {
+    return Math.round((count / total) * 100)
+}
 
 function validateFiles(uploadedFiles) {
     for (var x = 0; x < uploadedFiles.length; x++) {
@@ -28,7 +31,7 @@ function fileInfo(file) {
 }
 
 function uploadError(file, errorMsg) {
-    return ` <span> ${file.name} </span> <span> ${errorMsg} </span>`
+    return ` <span> ${file.name}</span> <span> Not uploaded! </span>`
 }
 
 function convertImageStream(imagePreviewer, file) {
@@ -117,11 +120,16 @@ FSMediaUploader.prototype = {
         const uploadedInputFiles = this.els.querySelector('#fileUpload');
         const files = uploadedInputFiles.files;
         var errorLog = document.getElementById('uploadError');
-        for (var f = 0; f < files.length; f++) {
+        var progressBar = document.getElementById('progressBar');
+        var count = 0;
+        var totalImages = files.length;
+        var max = 0;
+        for (let f = 0; f < totalImages; f++) {
             var formData = new FormData();
             formData.append('file', files[f], files[f].name);
             sendUpload(this.uploadUrl, formData).then(function (response) {
-                // todo add a callback to the users of this module
+                max += 1;
+                progressBar.style.width =  `${calculatePercentage(max, totalImages)}%`;
             }).catch(function (error) {
                 const err = document.createElement('div');
                 err.innerHTML = uploadError(files[f], error.statusMsg)
