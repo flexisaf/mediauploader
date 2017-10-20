@@ -1,3 +1,4 @@
+require('./app.scss');
 import {htmlContainer} from './template'
 
 
