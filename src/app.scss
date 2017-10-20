@@ -1,0 +1,129 @@
+.progress-wrap{
+  height: 5px;
+  background-color: #ccc;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar{
+  height: 5px;
+  background-color: var(--theme-default-color, #00d1b2);
+  width: 25%;
+}
+body{
+  --theme-default-color: #00d1b2;
+  background: rgba(0,0,0,.6);
+}
+::-webkit-scrollbar {
+  width: 4px;
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+::-webkit-scrollbar-thumb {
+  background: #4a5058;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Karla', sans-serif;
+}
+img{
+  max-width: 100%;
+}
+button, .button{
+  padding: 5px 15px;
+  border: 1px solid var(--theme-default-color,#000);
+  color: var(--theme-default-color,#000);
+  background-color: #fff;
+  margin: 4px 0;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+.button-primary{
+  background-color: var(--theme-default-color,#000);
+  color: #fff;
+}
+.button-no-outline{
+  border-color: transparent;
+}
+.card{
+  border: 1px solid #f1f1f1;
+  -webkit-box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.12);
+  box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.12);
+  padding: 1rem;
+}
+.media-uploader{
+  width: 50vw;
+  height: 60vh;
+  max-height: 100%;
+  margin: auto;
+  background: #fff;
+}
+header .header-right{
+  width: 50%;
+  float: right;
+  text-align: right;
+}
+#imagesContainer:after{
+  content: " ";
+  display: block;
+  clear: both;
+}
+#imagesContainer img{
+  width: 11.6vw;
+  height: 10vw;
+  object-fit: cover;
+  float: left;
+  padding: .2vw;
+}
+
+#fileInfos h3{
+  text-transform: uppercase;
+  font-weight: bolder;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+#fileInfos div{
+  margin: 4px 0;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #656565;
+}
+#fileInfos div span:nth-child(2n){
+  font-weight: normal;
+  display: block;
+  color: #9a9a9a;
+}
+#fileInfos{
+  background: #fff;
+  position: fixed;
+  bottom: -1000px;
+  right: 16px;
+  max-width: 300px;
+  max-height: 85vh;
+  width: 100%;
+  font-size: 12px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: bottom 0.18s ease;
+}
+#fileInfos #close {
+  background: #495057;
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 15px;
+  line-height: 30px;
+  height: 30px;
+  width: 30px;
+  text-align: center; }
+#imagesContainer{
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+.show-dialog {
+  bottom: 0 !important; }
