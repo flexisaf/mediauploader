@@ -190,7 +190,9 @@ function showDoneUploading(progressBarElement) {
     let width = progressBarElement.style.width.split('%')[0];
     if (width === '100') {
         // todo refactored to a better modal 
+       setTimeout(() => {
         alert('Uploads successfull!');
+       }, 1000);
     }
 };
 export default FSMediaUploader
