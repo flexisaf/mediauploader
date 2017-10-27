@@ -59,5 +59,4 @@ export const htmlContainer = `
                 </div>
             </div>
     </div>
-</div>
-`;
+</div>`;
