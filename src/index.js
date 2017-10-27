@@ -13,64 +13,6 @@ function FSMediaUploader(selector) {
 }
 
 
-function validateFiles(uploadedFiles) {
-    for (var x = 0; x < uploadedFiles.length; x++) {
-        console.log(uploadedFiles[x]);
-    }
-}
-
-function fileInfo(file) {
-
-    return `
-            <span> ${file.name}</span>
-            <span>Size:${file.size} MB</span>
-        `
-}
-
-function uploadError(file, errorMsg) {
-    return ` <span> ${file.name} </span> <span> ${errorMsg} </span>`
-}
-
-function convertImageStream(imagePreviewer, file) {
-    var fileReader = new FileReader();
-    fileReader.onload = function () {
-        imagePreviewer.src = fileReader.result;
-    }
-    fileReader.readAsDataURL(file);
-}
-
-function preview(src) {
-    var imageContainer = document.createElement('div')
-    imageContainer.classList.add('column')
-    imageContainer.classList.add('is-3')
-    var image = document.createElement('img')
-    image.setAttribute('id', 'imgPreview')
-    imageContainer.appendChild(image)
-    return  { imageContainer, image }
-}
-
-function sendUpload(url, jsonData) {
-    return new Promise(function (success, fail) {
-        var req = new XMLHttpRequest();
-        req.open('POST', url, true);
-        req.addEventListener('load', function () {
-            if (req.status < 400) {
-                success(req)
-            } else {
-                fail(new Error('Network Error ....'))
-            }
-        });
-        req.addEventListener('error', function () {
-            fail(req);
-        });
-
-        req.send(jsonData)
-    });
-}
-
-
-
-
 FSMediaUploader.prototype = {
     allowedFiles: [
         '.jpg', '.png'
@@ -117,11 +59,17 @@ FSMediaUploader.prototype = {
         const uploadedInputFiles = this.els.querySelector('#fileUpload');
         const files = uploadedInputFiles.files;
         var errorLog = document.getElementById('uploadError');
-        for (var f = 0; f < files.length; f++) {
+        var progressBar = document.getElementById('progressBar');
+        var count = 0;
+        var totalImages = files.length;
+        var max = 0;
+        for (let f = 0; f < totalImages; f++) {
             var formData = new FormData();
             formData.append('file', files[f], files[f].name);
             sendUpload(this.uploadUrl, formData).then(function (response) {
-                // todo add a callback to the users of this module
+                max += 1;
+                progressBar.style.width =  `${calculatePercentage(max, totalImages)}%`;
+                showDoneUploading(progressBar);
             }).catch(function (error) {
                 const err = document.createElement('div');
                 err.innerHTML = uploadError(files[f], error.statusMsg)
@@ -171,4 +119,78 @@ FSMediaUploader.prototype = {
         return results;
     },
 }
+
+
+function calculatePercentage(count, total) {
+    return Math.round((count / total) * 100)
+}
+
+function validateFiles(uploadedFiles) {
+    for (var x = 0; x < uploadedFiles.length; x++) {
+        console.log(uploadedFiles[x]);
+    }
+}
+
+function fileInfo(file) {
+
+    return `
+            <span> ${file.name}</span>
+            <span>Size:${file.size} MB</span>
+        `
+}
+
+function uploadError(file, errorMsg) {
+    return ` <span> ${file.name}</span> <span> Not uploaded! </span>`
+}
+
+function convertImageStream(imagePreviewer, file) {
+    var fileReader = new FileReader();
+    fileReader.onload = function () {
+        imagePreviewer.src = fileReader.result;
+    }
+    fileReader.readAsDataURL(file);
+}
+
+function preview(src) {
+    var imageContainer = document.createElement('div')
+    imageContainer.classList.add('column')
+    imageContainer.classList.add('is-3')
+    var image = document.createElement('img')
+    image.setAttribute('id', 'imgPreview')
+    imageContainer.appendChild(image)
+    return  { imageContainer, image }
+}
+
+function sendUpload(url, jsonData) {
+    return new Promise(function (success, fail) {
+        var req = new XMLHttpRequest();
+        req.open('POST', url, true);
+        req.addEventListener('load', function () {
+            if (req.status < 400) {
+                success(req)
+            } else {
+                fail(new Error('Network Error ....'))
+            }
+        });
+        req.addEventListener('error', function () {
+            fail(req);
+        });
+
+        req.send(jsonData)
+    });
+}
+
+/**
+ * Alert the user if all images where uploaded successfully
+ * The trick for now is to check if the progress bar width
+ * length is 100%
+ * @param {*} progressBarElement 
+ */
+function showDoneUploading(progressBarElement) {
+    let width = progressBarElement.style.width.split('%')[0];
+    if (width === '100') {
+        // todo refactored to a better modal 
+        alert('Uploads successfull!');
+    }
+};
 export default FSMediaUploader

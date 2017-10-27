@@ -6,8 +6,8 @@
 export const htmlContainer = `
     <div class="media-uploader card">
     
-    <div class="progress-wrap progress" data-progress-percent="25">
-      <div class="progress-bar progress"></div>
+    <div class="progress-wrap progress" data-progress-percent="0">
+      <div class="progress-bar progress"  id="progressBar"></div>
     </div>
     
     <div id="fileInfos" class="card show-dialog">    
@@ -40,7 +40,7 @@ export const htmlContainer = `
                 </section>                
             </header>
             <section class="">
-                <div class="" id="uploadError">
+                <div id="uploadError">
                     <div>
                     </div>
             
@@ -59,5 +59,4 @@ export const htmlContainer = `
                 </div>
             </div>
     </div>
-</div>
-`;
+</div>`;
